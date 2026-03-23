@@ -11,25 +11,24 @@ let products = []
 //each object contains: product name, quantity, and alert threshold
 
 
-app.post("/products", (req,res) => {
-    //called when changes are made to inventory
 
-    products.forEach(product => {
-        if (product.name === req.body.name) {
-            //if item is in list, updates values 
-            product.quantity === req.body.quantity;
-            product.alert_threshold === req.body.alert_threshold;
-        }
-        else {
-            //adds object into list if did not exist before
-            products.push(req.body);
+app.post("/products", (req, res) => {
+    const items = req.body; // array of products
+
+    items.forEach(item => {
+        const existing = products.find(p => p.name === item.name);
+
+        if (existing) {
+            existing.quantity = item.quantity;
+            existing.alert_threshold = item.alert_threshold;
+        } else {
+            products.push(item);
         }
     });
 
-    console.log("Products: ", products)
-    res.send("Inventory processed!")
-
+    res.send("Inventory processed!");
 });
+
 
 
 
@@ -41,7 +40,7 @@ app.post("/restock", (req, res) => {
         if (product.quantity <= product.alert_threshold) {
 
             messages.push(`RESTOCK ${product.name}, CURRENT QUANTITY: ${product.quantity}`);
-            console.log(rule.message);           
+             
 
         }
     });
@@ -53,7 +52,6 @@ app.post("/restock", (req, res) => {
         res.send(`The following items need to be restocked: ${messages}`);
     }
 
-    res.send("Event processed");
 });
 
 
