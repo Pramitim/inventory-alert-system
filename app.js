@@ -13,9 +13,14 @@ let products = []
 
 
 app.post("/products", (req, res) => {
-    const items = req.body; // array of products
+    const items = Array.isArray(req.body) ? req.body : [req.body]; // array of products
 
     items.forEach(item => {
+
+        if (!item.name || item.quantity == null || item.alert_threshold == null) {
+            return res.status(400).send("Missing required fields");
+        }
+
         const existing = products.find(p => p.name === item.name);
 
         if (existing) {
@@ -28,6 +33,8 @@ app.post("/products", (req, res) => {
 
     res.send("Inventory processed!");
 });
+
+
 
 
 
@@ -59,3 +66,5 @@ app.post("/restock", (req, res) => {
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+
+module.exports = app;
