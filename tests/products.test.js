@@ -24,7 +24,7 @@ describe("POST /products", () => {
     //if returns 400, 500, 404 test fails 
 
     expect(response.text).toContain("Inventory processed!");
-    // these assertions must be true for test to pass 
+    //these assertions must be true for test to pass
 
   });
 });
