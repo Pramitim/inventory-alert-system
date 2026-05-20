@@ -7,7 +7,7 @@ describe("POST /products", () => {
 //describe is used to group tests logically 
 
   it("adds a new product", async () => {
-    // "it" is a jest function for a single test
+    // "it()" is a jest function for a single test
 
     const response = await request(app)
     // starts sending a fake HTTP request 
